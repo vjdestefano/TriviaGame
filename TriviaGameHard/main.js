@@ -44,8 +44,9 @@ function questionSelect(arr, num) {
   console.log(num);
 
   questionToScreen(selectedQuestion);
+  
 
-  // selectedQuestionNum++;
+  //selectedQuestionNum++;
   // return selectedQuestion;
 }
 
@@ -61,6 +62,7 @@ function questionToScreen(arr) {
   var domOption1 = arr.option1;
   var domOption2 = arr.option2;
   var domOption3 = arr.option3;
+
 
   var test = [domOption1, domOption2, domOption3];
 
@@ -79,6 +81,44 @@ function questionToScreen(arr) {
   }
 }
 
+
+var nextQuestion;
+var timeLeft = 5;
+var timesUp = false;
+
+function gameTimer(){
+  if(!timesUp){
+    nextQuestion = setInterval(timeMinus,1000);
+    timesUp = true;
+  }
+}
+
+function timeMinus(){
+  timeLeft--;
+
+  $("#timer").html(timeLeft);
+
+  if(timeLeft === 0){
+    $("#question").empty();
+    $("#choices").empty();
+    selectedQuestionNum++;
+    questionSelect(testQuestionArr, selectedQuestionNum);
+    resetTimer();
+  }
+}
+
+function resetTimer(){
+  clearInterval(nextQuestion);
+  timesUp = false;
+  timeLeft = 5;
+  console.log("this is the amount fo time left: " + timeLeft);
+}
+
+
+
+gameTimer();
+
+
 $(document).on("click", ".test-button", function() {
   console.log("the loop is the thing not working");
 
@@ -86,25 +126,27 @@ $(document).on("click", ".test-button", function() {
 
   console.log(testData);
 
-  if ($("#question").text() === questionLog[selectedQuestionNum]) {
+  if ($("#question").text() === questionLog[0]) {
     if (
       testData === 2 &&
       $("#question").text() === questionLog[selectedQuestionNum]
     ) {
       console.log("this click is working");
-      selectedQuestionNum++;
+      //selectedQuestionNum++;
       $("#question").empty();
       $("#choices").empty();
+      resetTimer();
       questionSelect(testQuestionArr, selectedQuestionNum);
     }
   }
-  if ($("#question").text() === questionLog[selectedQuestionNum]) {
+
+  if ($("#question").text() === questionLog[1]) {
     if (
       testData === 1 &&
       $("#question").text() === questionLog[selectedQuestionNum]
     ) {
       console.log("this click is working");
-      selectedQuestionNum++;
+      //selectedQuestionNum++;
       $("#question").empty();
       $("#choices").empty();
       questionSelect(testQuestionArr, selectedQuestionNum);
