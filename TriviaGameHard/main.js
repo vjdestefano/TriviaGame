@@ -12,28 +12,62 @@
 
 var testQuestion = {
   header: "What is my favorite drink?",
-  option1: "this",
+  option1: "memes",
   option2: "coke",
   option3: "he needs some milk!"
 };
 
 var testQuestion2 = {
   header: "What is my favorite movie?",
-  option1: "this",
-  option2: "starwarz",
+  option1: "sharknado",
+  option2: "starwars",
   option3: "madMAX"
+};
+
+var testQuestion3 = {
+  header: "Are we enjoying this class?",
+  option1: "maybe",
+  option2: "are you crazy???",
+  option3: "yeah....I guess its pretty good >_>"
+};
+
+var testQuestion4 = {
+  header: "What is snapcht so bad?",
+  option1: "cause its fake",
+  option2: "cause they make it so hard to view stories!",
+  option3: "cause my girlfriend doesn't like it"
+};
+
+var testQuestion5 = {
+  header: "What is coding?",
+  option1: "this",
+  option2: "magic",
+  option3: "Lego robotics"
 };
 
 var score = 0;
 var selectedQuestionNum = 0;
 
-var questionLog = [testQuestion.header, testQuestion2.header];
-var correctAnswer = [testQuestion.option3, testQuestion2.option2];
+var questionLog = [
+  testQuestion.header, 
+  testQuestion2.header, 
+  testQuestion3.header, 
+  testQuestion4.header, 
+  testQuestion5.header
+];
+
+var correctAnswer = [
+  testQuestion.option3,
+  testQuestion2.option2,
+  testQuestion3.option3,
+  testQuestion4.option2,
+  testQuestion5.option1
+];
 
 console.log(questionLog[0]);
 console.log(typeof questionLog[0]);
 
-var testQuestionArr = [testQuestion, testQuestion2];
+var testQuestionArr = [testQuestion, testQuestion2, testQuestion3, testQuestion4, testQuestion5];
 
 function questionSelect(arr, num) {
   //var selectedQuestionNum = Math.round((Math.random() * 3) + 1);
@@ -44,7 +78,6 @@ function questionSelect(arr, num) {
   console.log(num);
 
   questionToScreen(selectedQuestion);
-  
 
   //selectedQuestionNum++;
   // return selectedQuestion;
@@ -63,7 +96,6 @@ function questionToScreen(arr) {
   var domOption2 = arr.option2;
   var domOption3 = arr.option3;
 
-
   var test = [domOption1, domOption2, domOption3];
 
   console.log(domHeader);
@@ -81,43 +113,54 @@ function questionToScreen(arr) {
   }
 }
 
-
+var alreadyScored = false;
+function scoreBoard() {
+  if (!alreadyScored) {
+    score++;
+    $("#score").text(score);
+    alreadyScored = true;
+    console.log("test for scoreBoard" + alreadyScored);
+  } else {
+    console.log("this idiot is spamming the button!");
+  }
+}
 var nextQuestion;
 var timeLeft = 5;
 var timesUp = false;
 
-function gameTimer(){
-  if(!timesUp){
-    nextQuestion = setInterval(timeMinus,1000);
+function gameTimer() {
+  if (!timesUp) {
+    nextQuestion = setInterval(timeMinus, 1000);
     timesUp = true;
   }
 }
 
-function timeMinus(){
+function timeMinus() {
   timeLeft--;
 
-  $("#timer").html(timeLeft);
+  $("#timer").text(timeLeft);
 
-  if(timeLeft === 0){
+  if (timeLeft === 0) {
     $("#question").empty();
     $("#choices").empty();
     selectedQuestionNum++;
     questionSelect(testQuestionArr, selectedQuestionNum);
     resetTimer();
+    alreadyScored = false;
+    gameTimer();
   }
 }
 
-function resetTimer(){
+function resetTimer() {
   clearInterval(nextQuestion);
   timesUp = false;
   timeLeft = 5;
+  alreadyScored = false;
   console.log("this is the amount fo time left: " + timeLeft);
+  $("#timer").text(timeLeft);
 }
 
-
-
 gameTimer();
-
 
 $(document).on("click", ".test-button", function() {
   console.log("the loop is the thing not working");
@@ -125,31 +168,85 @@ $(document).on("click", ".test-button", function() {
   var testData = parseInt($(this).attr("correctChoice"));
 
   console.log(testData);
-
+  //question #1
   if ($("#question").text() === questionLog[0]) {
     if (
       testData === 2 &&
       $("#question").text() === questionLog[selectedQuestionNum]
     ) {
       console.log("this click is working");
-      //selectedQuestionNum++;
+      scoreBoard();
       $("#question").empty();
       $("#choices").empty();
       resetTimer();
+      gameTimer();
       questionSelect(testQuestionArr, selectedQuestionNum);
+      //the selectQuestionNum isnt incrementing properly becasue there is no selectedQuestionNum++!!!
     }
   }
-
+  //question #2
   if ($("#question").text() === questionLog[1]) {
     if (
       testData === 1 &&
       $("#question").text() === questionLog[selectedQuestionNum]
     ) {
       console.log("this click is working");
-      //selectedQuestionNum++;
+      scoreBoard();
       $("#question").empty();
       $("#choices").empty();
+      resetTimer();
+      gameTimer();
       questionSelect(testQuestionArr, selectedQuestionNum);
+      //the selectQuestionNum isnt incrementing properly becasue there is no selectedQuestionNum++!!!
+    }
+  }
+
+  //question 3
+  if ($("#question").text() === questionLog[2]) {
+    if (
+      testData === 2 &&
+      $("#question").text() === questionLog[selectedQuestionNum]
+    ) {
+      console.log("this click is working");
+      scoreBoard();
+      $("#question").empty();
+      $("#choices").empty();
+      resetTimer();
+      gameTimer();
+      questionSelect(testQuestionArr, selectedQuestionNum);
+      //the selectQuestionNum isnt incrementing properly becasue there is no selectedQuestionNum++!!!
+    }
+  }
+
+  if ($("#question").text() === questionLog[3]) {
+    if (
+      testData === 1 &&
+      $("#question").text() === questionLog[selectedQuestionNum]
+    ) {
+      console.log("this click is working");
+      scoreBoard();
+      $("#question").empty();
+      $("#choices").empty();
+      resetTimer();
+      gameTimer();
+      questionSelect(testQuestionArr, selectedQuestionNum);
+      //the selectQuestionNum isnt incrementing properly becasue there is no selectedQuestionNum++!!!
+    }
+  }
+
+  if ($("#question").text() === questionLog[4]) {
+    if (
+      testData === 0 &&
+      $("#question").text() === questionLog[selectedQuestionNum]
+    ) {
+      console.log("this click is working");
+      scoreBoard();
+      $("#question").empty();
+      $("#choices").empty();
+      resetTimer();
+      gameTimer();
+      questionSelect(testQuestionArr, selectedQuestionNum);
+      //the selectQuestionNum isnt incrementing properly becasue there is no selectedQuestionNum++!!!
     }
   }
 });
