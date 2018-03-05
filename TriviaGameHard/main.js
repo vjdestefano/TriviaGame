@@ -32,7 +32,7 @@ var testQuestion3 = {
 };
 
 var testQuestion4 = {
-  header: "What is snapcht so bad?",
+  header: "What is Snapchat so bad?",
   option1: "cause its fake",
   option2: "cause they make it so hard to view stories!",
   option3: "cause my girlfriend doesn't like it"
@@ -117,15 +117,25 @@ var alreadyScored = false;
 function scoreBoard() {
   if (!alreadyScored) {
     score++;
-    $("#score").text(score);
+    $("#choices").text("that was the right answer");
+    $("#score").text("Player's current score: " + score);
     alreadyScored = true;
     console.log("test for scoreBoard" + alreadyScored);
   } else {
     console.log("this idiot is spamming the button!");
   }
 }
+
+var triedAnswer = false;
+function wrongAnswer(){
+  if(!triedAnswer){
+    $("#choices").text("that was the wrong answer");
+    alreadyScored = true;
+    triedAnswer = true;
+  }
+}
 var nextQuestion;
-var timeLeft = 5;
+var timeLeft = 15;
 var timesUp = false;
 
 function gameTimer() {
@@ -138,7 +148,7 @@ function gameTimer() {
 function timeMinus() {
   timeLeft--;
 
-  $("#timer").text(timeLeft);
+  $("#timer").text("Amount of time remaining: " + timeLeft);
 
   if (timeLeft === 0) {
     $("#question").empty();
@@ -147,6 +157,7 @@ function timeMinus() {
     questionSelect(testQuestionArr, selectedQuestionNum);
     resetTimer();
     alreadyScored = false;
+    triedAnswer = false;
     gameTimer();
   }
 }
@@ -154,10 +165,18 @@ function timeMinus() {
 function resetTimer() {
   clearInterval(nextQuestion);
   timesUp = false;
-  timeLeft = 5;
-  alreadyScored = false;
+  timeLeft = 15;
+  //alreadyScored = false;
   console.log("this is the amount fo time left: " + timeLeft);
-  $("#timer").text(timeLeft);
+  $("#timer").text("Amount of time remaining: " + timeLeft);
+}
+
+function restartGame(){
+  selectedQuestionNum = 0;
+  score = 0;
+  timeLeft = 10;
+  questionSelect(testQuestionArr, selectedQuestionNum);
+  gameTimer();
 }
 
 gameTimer();
@@ -176,12 +195,9 @@ $(document).on("click", ".test-button", function() {
     ) {
       console.log("this click is working");
       scoreBoard();
-      $("#question").empty();
-      $("#choices").empty();
-      resetTimer();
-      gameTimer();
-      questionSelect(testQuestionArr, selectedQuestionNum);
       //the selectQuestionNum isnt incrementing properly becasue there is no selectedQuestionNum++!!!
+    } else {
+      wrongAnswer();
     }
   }
   //question #2
@@ -192,14 +208,12 @@ $(document).on("click", ".test-button", function() {
     ) {
       console.log("this click is working");
       scoreBoard();
-      $("#question").empty();
-      $("#choices").empty();
-      resetTimer();
-      gameTimer();
-      questionSelect(testQuestionArr, selectedQuestionNum);
       //the selectQuestionNum isnt incrementing properly becasue there is no selectedQuestionNum++!!!
+    } else {
+      wrongAnswer();
     }
-  }
+    }
+  
 
   //question 3
   if ($("#question").text() === questionLog[2]) {
@@ -209,12 +223,9 @@ $(document).on("click", ".test-button", function() {
     ) {
       console.log("this click is working");
       scoreBoard();
-      $("#question").empty();
-      $("#choices").empty();
-      resetTimer();
-      gameTimer();
-      questionSelect(testQuestionArr, selectedQuestionNum);
       //the selectQuestionNum isnt incrementing properly becasue there is no selectedQuestionNum++!!!
+    } else {
+      wrongAnswer();
     }
   }
 
@@ -225,12 +236,9 @@ $(document).on("click", ".test-button", function() {
     ) {
       console.log("this click is working");
       scoreBoard();
-      $("#question").empty();
-      $("#choices").empty();
-      resetTimer();
-      gameTimer();
-      questionSelect(testQuestionArr, selectedQuestionNum);
       //the selectQuestionNum isnt incrementing properly becasue there is no selectedQuestionNum++!!!
+    } else {
+      wrongAnswer();
     }
   }
 
@@ -241,12 +249,9 @@ $(document).on("click", ".test-button", function() {
     ) {
       console.log("this click is working");
       scoreBoard();
-      $("#question").empty();
-      $("#choices").empty();
-      resetTimer();
-      gameTimer();
-      questionSelect(testQuestionArr, selectedQuestionNum);
       //the selectQuestionNum isnt incrementing properly becasue there is no selectedQuestionNum++!!!
+    } else {
+      wrongAnswer();
     }
   }
 });
