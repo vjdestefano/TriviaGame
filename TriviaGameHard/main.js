@@ -129,6 +129,7 @@ function questionToScreen(arr) {
   for (var i = 0; i < test.length; i++) {
     var buttonOptions = $("<button>");
     buttonOptions.addClass("test-button");
+    buttonOptions.addClass("btn btn-primary btn-lg");
     buttonOptions.attr("correctChoice", i);
     buttonOptions.text(test[i]);
     $("#question").text(domHeader);
@@ -160,13 +161,13 @@ function wrongAnswer() {
   }
 }
 var nextQuestion;
-var timeLeft = 5;
+var timeLeft = 15;
 var timesUp = false;
 
 function restartGame() {
   selectedQuestionNum = 0;
   score = 0;
-  timeLeft = 10;
+  timeLeft = 15;
   $("#choices").empty();
   $("#question").empty();
   $("#score").empty();
@@ -186,7 +187,7 @@ function gameTimer() {
 function timeMinus() {
   timeLeft--;
 
-  $("#timer").text("Amount of time remaining: " + timeLeft);
+  $("#timer").text("Time remaining: " + timeLeft);
 
   if (timeLeft === 0) {
     $("#question").empty();
@@ -205,6 +206,7 @@ function timeMinus() {
     timesUp = true;
     var retryBtn = $("<button>");
     retryBtn.addClass("retry");
+    retryBtn.addClass("btn btn-primary btn-lg btn-block");
     retryBtn.text("RETRY?");
     $("#choices").append(retryBtn);
 
@@ -214,10 +216,10 @@ function timeMinus() {
 function resetTimer() {
   clearInterval(nextQuestion);
   timesUp = false;
-  timeLeft = 5;
+  timeLeft = 15;
   //alreadyScored = false;
   console.log("this is the amount fo time left: " + timeLeft);
-  $("#timer").text("Amount of time remaining: " + timeLeft);
+  $("#timer").text("Time remaining: " + timeLeft);
 }
 
 

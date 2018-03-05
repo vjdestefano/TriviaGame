@@ -1,0 +1,28 @@
+body{
+ 
+  font-family: 'Krona One', sans-serif;
+  font-size: 40px;
+  background-image: url(https://media.giphy.com/media/8FfoOibYhSd0XFyVy7/giphy.gif);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: 50% 85%;
+  
+
+}
+
+.display-3{
+  font-size: 35px;
+}
+
+
+
+.test-button{
+  margin: 2%;
+  font-size: 20px;
+}
+
+#score{
+  color: mediumblue;
+}
+
+
