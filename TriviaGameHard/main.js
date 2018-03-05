@@ -45,14 +45,21 @@ var testQuestion5 = {
   option3: "Lego robotics"
 };
 
+var endResult = {
+  header: "",
+  option1: "",
+  option2: "",
+  option3: ""
+};
+
 var score = 0;
 var selectedQuestionNum = 0;
 
 var questionLog = [
-  testQuestion.header, 
-  testQuestion2.header, 
-  testQuestion3.header, 
-  testQuestion4.header, 
+  testQuestion.header,
+  testQuestion2.header,
+  testQuestion3.header,
+  testQuestion4.header,
   testQuestion5.header
 ];
 
@@ -67,21 +74,39 @@ var correctAnswer = [
 console.log(questionLog[0]);
 console.log(typeof questionLog[0]);
 
-var testQuestionArr = [testQuestion, testQuestion2, testQuestion3, testQuestion4, testQuestion5];
+var testQuestionArr = [
+  testQuestion,
+  testQuestion2,
+  testQuestion3,
+  testQuestion4,
+  testQuestion5,
+  endResult
+];
 
 function questionSelect(arr, num) {
-  //var selectedQuestionNum = Math.round((Math.random() * 3) + 1);
-  console.log(testQuestionArr, selectedQuestionNum);
-  var selectedQuestion = arr[num];
-  console.log(selectedQuestion);
-  //selectedQuestionNum++;
-  console.log(num);
+  if (selectedQuestionNum == 5) {
+    $("#timer").empty();
+    $("#question").text("You got " + score + " out of 5 correct!");
+    timesUp = true;
+    
+  } else {
+    console.log(testQuestionArr, selectedQuestionNum);
+    var selectedQuestion = arr[num];
+    console.log(selectedQuestion);
+    //selectedQuestionNum++;
+    console.log(num);
 
-  questionToScreen(selectedQuestion);
+    questionToScreen(selectedQuestion);
+  }
+
+
+
+  } 
+  //var selectedQuestionNum = Math.round((Math.random() * 3) + 1);
 
   //selectedQuestionNum++;
   // return selectedQuestion;
-}
+
 
 questionSelect(testQuestionArr, selectedQuestionNum);
 //question 1
@@ -127,21 +152,34 @@ function scoreBoard() {
 }
 
 var triedAnswer = false;
-function wrongAnswer(){
-  if(!triedAnswer){
+function wrongAnswer() {
+  if (!triedAnswer) {
     $("#choices").text("that was the wrong answer");
     alreadyScored = true;
     triedAnswer = true;
   }
 }
 var nextQuestion;
-var timeLeft = 15;
+var timeLeft = 5;
 var timesUp = false;
+
+function restartGame() {
+  selectedQuestionNum = 0;
+  score = 0;
+  timeLeft = 10;
+  $("#choices").empty();
+  $("#question").empty();
+  $("#score").empty();
+  questionSelect(testQuestionArr, selectedQuestionNum);
+  resetTimer();
+  gameTimer();
+}
 
 function gameTimer() {
   if (!timesUp) {
     nextQuestion = setInterval(timeMinus, 1000);
     timesUp = true;
+    console.log(nextQuestion);
   }
 }
 
@@ -160,24 +198,29 @@ function timeMinus() {
     triedAnswer = false;
     gameTimer();
   }
+  if(timeLeft <= 0){
+    $("#timer").empty();
+    clearInterval(nextQuestion);
+    $("#question").text("You got " + score + " out of 5 correct!");
+    timesUp = true;
+    var retryBtn = $("<button>");
+    retryBtn.addClass("retry");
+    retryBtn.text("RETRY?");
+    $("#choices").append(retryBtn);
+
+  }
 }
 
 function resetTimer() {
   clearInterval(nextQuestion);
   timesUp = false;
-  timeLeft = 15;
+  timeLeft = 5;
   //alreadyScored = false;
   console.log("this is the amount fo time left: " + timeLeft);
   $("#timer").text("Amount of time remaining: " + timeLeft);
 }
 
-function restartGame(){
-  selectedQuestionNum = 0;
-  score = 0;
-  timeLeft = 10;
-  questionSelect(testQuestionArr, selectedQuestionNum);
-  gameTimer();
-}
+
 
 gameTimer();
 
@@ -212,8 +255,7 @@ $(document).on("click", ".test-button", function() {
     } else {
       wrongAnswer();
     }
-    }
-  
+  }
 
   //question 3
   if ($("#question").text() === questionLog[2]) {
@@ -254,6 +296,12 @@ $(document).on("click", ".test-button", function() {
       wrongAnswer();
     }
   }
+
+  
+
 });
 
 //questionToScreen(testQuestion);
+$(document).on("click", ".retry", function() {
+restartGame();
+});
